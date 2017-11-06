@@ -1,4 +1,4 @@
-package com.multi.datasource;
+package com.multi.sessionFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.multi.datasource.component.MultiDataSource;
-import com.multi.datasource.dao.bean.User;
-import com.multi.datasource.dao.mapper.UserMapper;
+import com.multi.sessionFactory.component.MultiDataSource;
+import com.multi.sessionFactory.dao.bean.User;
+import com.multi.sessionFactory.dao.mapper.UserMapper;
 
 /**
- * 同一个sessionFactory切换不同的数据源（DataSource）
+ * 不同同sessionFactory，每个sessionFactory对应不同数据源（DataSource）
  */
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)

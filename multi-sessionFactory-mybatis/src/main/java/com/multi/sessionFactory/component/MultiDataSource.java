@@ -1,4 +1,4 @@
-package com.multi.datasource.component;
+package com.multi.sessionFactory.component;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 

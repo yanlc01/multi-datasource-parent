@@ -108,5 +108,6 @@
   <modules>
   	<module>multi-datasource-jpa</module>
   	<module>multi-datasource-mybatis</module>
+  	<module>multi-sessionFactory-mybatis</module>
   </modules>
 </project>

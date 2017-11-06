@@ -1,6 +1,8 @@
 package com.multi.datasource.config;
 
 import com.github.pagehelper.PageHelper;
+import com.multi.datasource.component.MultiDataSource;
+
 import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -17,7 +19,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -28,8 +29,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class MyBatisConfiguration implements TransactionManagementConfigurer {
 
-    @Autowired
-    private DataSource dataSource;
+    @Autowired private MultiDataSource multiDataSource;
 
     private static String MAPPER_PATH = "/mapper/**.xml";
 
@@ -37,15 +37,14 @@ public class MyBatisConfiguration implements TransactionManagementConfigurer {
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactoryBean() throws IOException {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-        bean.setDataSource(dataSource);
+        bean.setDataSource(multiDataSource);
         //配置xml mapper扫描路径
 //        PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
 //        String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + MAPPER_PATH;
 //        bean.setMapperLocations(pathMatchingResourcePatternResolver.getResources(packageSearchPath));
-        bean.setTypeAliasesPackage("com.minorfish.mw.entity");
+        bean.setTypeAliasesPackage("com.multi.datasource.entity");
         {
-            org.apache.ibatis.session.Configuration configuration =
-                    new org.apache.ibatis.session.Configuration();
+            org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
             configuration.setMapUnderscoreToCamelCase(true);
             configuration.setUseGeneratedKeys(true);
             configuration.setUseActualParamName(false);
@@ -81,6 +80,6 @@ public class MyBatisConfiguration implements TransactionManagementConfigurer {
     @Bean
     @Override
     public PlatformTransactionManager annotationDrivenTransactionManager() {
-        return new DataSourceTransactionManager(dataSource);
+        return new DataSourceTransactionManager(multiDataSource);
     }
 }

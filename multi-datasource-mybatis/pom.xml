@@ -7,7 +7,7 @@
   </parent>
   <artifactId>multi-datasource-mybatis</artifactId>
   <name>multi-datasource-mybatis</name>
-  <description>多数据源-mybatis</description>
+  <description>多数据源-mybatis，同一个sessionFactory切换。适用于表结构相同的多个数据库</description>
   
   <dependencies>
   		<dependency>

@@ -16,9 +16,10 @@ public class MyBatisMapperScannerConfiguration {
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setBasePackage("com.minorfish.mw.dao.mapper");
+        mapperScannerConfigurer.setBasePackage("com.multi.datasource.dao.mapper");
         Properties properties = new Properties();
-        properties.setProperty("mappers", "tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.MySqlMapper");
+        properties.setProperty("mappers", "tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.MySqlMapper,"
+        		+ "tk.mybatis.mapper.common.special.InsertListMapper,tk.mybatis.mapper.common.special.InsertUseGeneratedKeysMapper");
         properties.setProperty("notEmpty", "false");
         properties.setProperty("IDENTITY", "MYSQL");
         mapperScannerConfigurer.setProperties(properties);

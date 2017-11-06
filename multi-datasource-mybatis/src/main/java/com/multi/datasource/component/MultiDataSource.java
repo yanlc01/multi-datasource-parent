@@ -1,9 +1,10 @@
 package com.multi.datasource.component;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-import org.springframework.stereotype.Component;
 
-//@Component
+/**
+ * 数据源会根据determineCurrentLookupKey()的返回值来选取
+ */
 public class MultiDataSource extends AbstractRoutingDataSource {
 	
 	private final ThreadLocal<String> sourceKey = new InheritableThreadLocal<String>();

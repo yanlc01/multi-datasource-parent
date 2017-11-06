@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import lombok.Data;
 
 @Configuration
-@ConfigurationProperties(prefix = "mysqlLocal")
+@ConfigurationProperties(prefix = "mysqlPrimary")
 @Data
-public class MysqlDataSourceLocal {
+public class MysqlDataSourcePrimary {
 
-	private String driver;
+	private String driverClassName;
 	private String url;
 	private String username;
 	private String password;

@@ -1,0 +1,11 @@
+server:
+  port: 5321
+  tomcat:
+    basedir: /opt/temp/mybatis
+spring:
+  profiles:
+    active: dev
+logging:
+  config: classpath:logback-manager.xml
+
+

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <conversionRule conversionWord="ip" converterClass="com.multi.datasource.ext.LogbackIpConverter" />
+    <!--
+        文件输出格式
+        %-4relative 表示，将输出从程序启动到创建日志记录的时间，进行左对齐，且最小宽度为4
+        %- 是左对齐标记
+        %-12 是左对齐，并且最小宽度是12，如果字符小于最小宽度，则左填充或者右填充，填充内容是空格，默认左填充
+        %m 是输出代码中指定的消息
+        %n 回车换行
+        %L 是所在类的行数
+        %c 是所在类的类全名
+        %thread 是当前线程
+        %level 是日记级别，即DEBUG、INFO、WARN、ERROR、FATAL
+        %d 是时间格式化输出，{}中可以指定格式化字符串
+        %caller{0} 输出生成日志的调用者的位置信息，{}中填写整数，意思是显示的调用的深度  http://www.coderli.com/logback-pattern-caller/
+
+        %ip 是我自定义的模式名称
+    -->
+    <!--
+    <property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}%ip) |-%-5level [%thread] %c [%L] -| %msg%n" />
+    -->
+	
+	<property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%thread] %c [%L] - %m%n" />
+    <!-- logs文件路径 -->
+    <!-- <property name="DEV_FILE_PATH" value="H:/logs/pps-location-dev" /> -->
+    <property name="DEV_FILE_PATH" value="/opt/logs/dev/" />
+    <property name="TEST_FILE_PATH" value="/opt/logs/test/" />
+    <property name="PROD_FILE_PATH" value="/opt/logs/prod/" />
+    <property name="ONLINE_FILE_PATH" value="/opt/logs/online/" />
+
+    <springProfile name="prod">
+        <!-- 每天产生一个文件 -->
+        <appender name="PROD-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 文件路径 -->
+            <file>${PROD_FILE_PATH}</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- 文件名称 -->
+                <fileNamePattern>${PROD_FILE_PATH}/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <!-- 文件最大保存历史数量 -->
+                <MaxHistory>100</MaxHistory>
+            </rollingPolicy>
+
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <!-- 开发环境，打印SQL语句 -->
+        <!--<logger name="com.minorfish.iot.dao.mybatis" level="warn" />-->
+
+        <root level="info">
+            <appender-ref ref="PROD-FILE" />
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <!-- 开发环境 -->
+    <springProfile name="dev">
+    	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <!-- 每天产生一个文件 -->
+        <appender name="DEBUG-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        	<!-- <encoding>UTF-8</encoding> -->
+            <!-- 文件路径 -->
+            <!-- <file>${DEV_FILE_PATH}/</file> -->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- 文件名称 -->
+                <fileNamePattern>${DEV_FILE_PATH}/%d{yyyy-MM-dd}/debug.log</fileNamePattern>
+                <!-- 文件最大保存历史数量 -->
+                <MaxHistory>20</MaxHistory>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter"> 
+            	<level>DEBUG</level>  
+            	<onMatch>ACCEPT</onMatch>  
+            	<onMismatch>DENY</onMismatch>  
+			</filter>
+        </appender>
+        <appender name="WARN-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${DEV_FILE_PATH}/%d{yyyy-MM-dd}/warn.log</fileNamePattern><!-- 文件名称 -->
+                <MaxHistory>20</MaxHistory><!-- 文件最大保存历史数量 -->
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter"> 
+            	<level>WARN</level>  
+            	<onMatch>ACCEPT</onMatch>  
+            	<onMismatch>DENY</onMismatch>  
+			</filter>
+        </appender>
+        <appender name="INFO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${DEV_FILE_PATH}/%d{yyyy-MM-dd}/info.log</fileNamePattern><!-- 文件名称 -->
+                <MaxHistory>20</MaxHistory><!-- 文件最大保存历史数量 -->
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter"> 
+            	<level>INFO</level>  
+            	<onMatch>ACCEPT</onMatch>  
+            	<onMismatch>DENY</onMismatch>  
+			</filter>
+        </appender>
+        <appender name="ERROR-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${DEV_FILE_PATH}/%d{yyyy-MM-dd}/error.log</fileNamePattern><!-- 文件名称 -->
+                <MaxHistory>20</MaxHistory><!-- 文件最大保存历史数量 -->
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter"> 
+            	<level>ERROR</level>  
+            	<onMatch>ACCEPT</onMatch>  
+            	<onMismatch>DENY</onMismatch>  
+			</filter>
+        </appender>
+        <root level="debug">
+        	<appender-ref ref="CONSOLE" />
+            <appender-ref ref="DEBUG-FILE" />
+            <appender-ref ref="INFO-FILE" />
+            <appender-ref ref="WARN-FILE" />
+            <appender-ref ref="ERROR-FILE" />
+        </root>
+    </springProfile>
+
+    <springProfile name="online">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <!-- 测试环境 -->
+    <springProfile name="test">
+        <!-- 每天产生一个文件 -->
+        <appender name="TEST-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 文件路径 -->
+            <file>${TEST_FILE_PATH}</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- 文件名称 -->
+                <fileNamePattern>${TEST_FILE_PATH}/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <!-- 文件最大保存历史数量 -->
+                <MaxHistory>100</MaxHistory>
+            </rollingPolicy>
+
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="TEST-FILE" />
+        </root>
+    </springProfile>
+</configuration>

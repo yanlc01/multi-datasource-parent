@@ -28,8 +28,8 @@ import javax.sql.DataSource;
  * MyBatis基础配置
  * sessionFactory配置二
  */
-@Configuration
-@EnableTransactionManagement
+//@Configuration
+//@EnableTransactionManagement
 public class MyBatisConfigurationSecondary implements TransactionManagementConfigurer {
 
     @Autowired @Qualifier("dataSourceSecondary") private DataSource dataSourceSecondary;

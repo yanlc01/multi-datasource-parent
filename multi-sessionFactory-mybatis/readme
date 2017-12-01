@@ -1,0 +1,1 @@
+不同sessionFactory切换，每个sessionFactory对应一个数据源（适用于表结构不同的多个数据源）

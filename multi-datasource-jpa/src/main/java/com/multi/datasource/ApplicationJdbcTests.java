@@ -16,22 +16,26 @@ public class ApplicationJdbcTests {
 	
 	@Autowired @Qualifier("jdbcTemplatePrimary") private JdbcTemplate jdbcTemplatePrimary;
 	@Autowired @Qualifier("jdbcTemplateSecondary") private JdbcTemplate jdbcTemplateSecondary;
+	@Autowired @Qualifier("jdbcTemplateSqlServer") private JdbcTemplate jdbcTemplateSqlServer;
 	
 	@Before
 	public void setup() {
-		jdbcTemplatePrimary.update("DELETE FROM USER");
-		jdbcTemplateSecondary.update("DELETE FROM USER");
+//		jdbcTemplatePrimary.update("DELETE FROM USER");
+//		jdbcTemplateSecondary.update("DELETE FROM USER");
+		jdbcTemplateSqlServer.execute("DELETE FROM [dbo].[user]");
 	}
 	
 	@Test
 	public void test() {
-		jdbcTemplatePrimary.update("INSERT INTO USER VALUE(?, ?, ?)", 1, "张三", 11);
-		jdbcTemplatePrimary.update("INSERT INTO USER VALUE(?, ?, ?)", 2, "李四", 22);
+//		jdbcTemplatePrimary.update("INSERT INTO USER VALUE(?, ?, ?)", 1, "张三", 11);
+//		jdbcTemplatePrimary.update("INSERT INTO USER VALUE(?, ?, ?)", 2, "李四", 22);
+//		
+//		jdbcTemplateSecondary.update("INSERT INTO USER VALUE(?, ?, ?)", 1, "张三", 11);
+//		
+//		Assert.assertEquals("2", jdbcTemplatePrimary.queryForObject("SELECT COUNT(*) FROM USER", String.class));
+//		Assert.assertEquals("1", jdbcTemplateSecondary.queryForObject("SELECT COUNT(*) FROM USER", String.class));
 		
-		jdbcTemplateSecondary.update("INSERT INTO USER VALUE(?, ?, ?)", 1, "张三", 11);
-		
-		Assert.assertEquals("2", jdbcTemplatePrimary.queryForObject("SELECT COUNT(*) FROM USER", String.class));
-		Assert.assertEquals("1", jdbcTemplateSecondary.queryForObject("SELECT COUNT(*) FROM USER", String.class));
+		jdbcTemplateSqlServer.execute("INSERT INTO [dbo].[user] values(4, 'fuc')");
 	}
 	
 }

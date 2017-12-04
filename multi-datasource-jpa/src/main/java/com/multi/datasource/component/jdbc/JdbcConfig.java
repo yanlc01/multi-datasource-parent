@@ -20,4 +20,9 @@ public class JdbcConfig {
 		return new JdbcTemplate(dataSourceSecondary);
 	}
 	
+	@Bean(name = "jdbcTemplateSqlServer")
+	public JdbcTemplate jdbcTemplateSqlServer(@Qualifier("dataSourceSqlServer") DataSource dataSourceSqlServer) {
+		return new JdbcTemplate(dataSourceSqlServer);
+	}
+	
 }

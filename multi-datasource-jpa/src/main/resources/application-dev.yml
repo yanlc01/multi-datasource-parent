@@ -10,4 +10,11 @@ mysqlSecondary:
   username: root
   password: 123456
 
+sqlServer:
+  driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  #url: jdbc:microsoft:sqlserver://192.168.2.227:1433;DatabaseName=dc_his_new#旧版本连接关键字
+  url: jdbc:sqlserver://localhost:1433;DatabaseName=dc_his_new
+  username: sa
+  password: 123456
+
 

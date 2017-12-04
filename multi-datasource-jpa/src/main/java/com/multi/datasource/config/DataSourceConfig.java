@@ -24,4 +24,10 @@ public class DataSourceConfig {
 		return DataSourceBuilder.create().build();
 	}
 	
+	@Bean(name = "dataSourceSqlServer")
+	@ConfigurationProperties(prefix = "sqlServer")
+	public DataSource generateDataSourceSqlServer() {
+		return DataSourceBuilder.create().build();
+	}
+	
 }
